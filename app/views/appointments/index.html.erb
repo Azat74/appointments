@@ -1,15 +1,15 @@
 <h1>Appointments</h1>
-<table>
-    <tr>
-        <th>Date</th>
-        <th>Customer</th>
-        <th>Time</th>
-    </tr>
-    <% @appointments.each do |appointment| %>
-        <tr>
-            <td><%= appointment.date %></td>
-            <td><%= appointment.customer.first_name %></td>
-            <td><%= appointment.appointment_time.time.strftime("%I:%M%p") %></td>
-        </tr>
-    <% end %>
-<table>
+<div class="appointments">
+  <% @appointments.each do |appointment| %>
+    <div class="appointment">
+      <div class="date"><%= appointment.date %></div>
+      <div class="customer">
+        <%= "#{appointment.customer.first_name} \
+             #{appointment.customer.last_name}" %>
+      </div>
+      <div class="time">
+        <%= appointment.appointment_time.time.strftime("%I:%M%p") %>
+      </div>
+    </div>
+  <% end %>
+<div>
