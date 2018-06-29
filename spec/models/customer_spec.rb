@@ -3,16 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
-  context 'with appointment' do
-    it 'check appointment' do
-      subject do
-        Customer.new(
-          first_name: 'Moe',
-          last_name: 'Szyslak',
-          phone: '16548924831'
-        )
-      end
-      expect(subject.valid?).to be true
-    end
+  context 'validations' do
+    it { should validate_presence_of(:phone) }
+    it { should validate_presence_of(:first_name) }
+    it { should validate_presence_of(:last_name) }
+    it { should validate_uniqueness_of(:phone) }
+    it { should have_many(:appointments) }
+    it { should have_many(:appointment_times) }
   end
 end
