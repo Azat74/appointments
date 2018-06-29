@@ -8,8 +8,9 @@
              #{appointment.customer.last_name}" %>
       </div>
       <div class="time">
-        <%= appointment.appointment_time.time.strftime("%I:%M%p") %>
+        <%= appointment.appointment_time.time.strftime("%H:%M") %>
       </div>
     </div>
   <% end %>
 <div>
+<%= link_to 'New appointment', appointment_new_path %>
