@@ -1,7 +1,8 @@
 class AppointmentsController < ApplicationController
   def index
+    # TODO Add sql join for appoint_time ordering
     @appointments =
-      Appointment.all.order(:date)
+      Appointment.all.order(:date, :appointment_time_id)
   end
 
   def new
