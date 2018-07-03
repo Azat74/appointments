@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Customer model
 class Customer < ApplicationRecord
   has_many :appointments
   has_many :appointment_times, through: :appointments

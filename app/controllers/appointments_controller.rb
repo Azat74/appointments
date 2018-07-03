@@ -1,20 +1,19 @@
 class AppointmentsController < ApplicationController
   def index
-    # TODO Add sql join for appoint_time ordering
+    # TODO: Add sql join for appoint_time ordering
     @appointments =
-      Appointment.all.order(:date, :appointment_time_id)
+      Appointment.order(:date, :appointment_time_id)
   end
 
   def new
     @appointment = Appointment.new
-    @times = AppointmentTime.all
   end
 
   def create
     @appointment = Appointment.new(apointment_params)
     @appointment.customer_id = 3
     @appointment.appointment_time_id =
-      params[:appointment][:appointment_time_id]
+      params.dig(:appointment, :appointment_time_id)
     @appointment.save
     redirect_to root_path
   end
