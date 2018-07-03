@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  get 'appointment', to: 'appointments#new', as: 'appointment_new'
+  post 'appointment', to: 'appointments#create'
+  root 'appointments#index'
 end
