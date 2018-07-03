@@ -1,5 +1,6 @@
 class ChangeAppointmentTimeColumn < ActiveRecord::Migration[5.2]
   def change
-    change_column :appointment_times, :time, :datetime
+    remove_column :appointment_times, :time
+    add_column :appointment_times, :time, :datetime
   end
 end
