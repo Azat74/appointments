@@ -8,7 +8,7 @@
              #{appointment.customer.last_name}" %>
       </div>
       <div class="time">
-        <%= appointment.appointment_time.time.strftime("%H:%M") %>
+        <%= appointment.appointment_time.time_to_string %>
       </div>
     </div>
   <% end %>
