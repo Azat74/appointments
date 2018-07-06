@@ -14,8 +14,11 @@ class AppointmentsController < ApplicationController
     @appointment.customer_id = 3
     @appointment.appointment_time_id =
       params.dig(:appointment, :appointment_time_id)
-    @appointment.save
-    redirect_to root_path
+    if @appointment.save
+      redirect_to root_path
+    else
+      render 'new'
+    end
   end
 
   private
