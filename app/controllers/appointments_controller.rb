@@ -1,9 +1,8 @@
 class AppointmentsController < ApplicationController
   def index
-    @appointments =
-      Appointment
-        .includes(:appointment_time, :customer)
-        .order(:date, "appointment_times.time")
+    @appointments = Appointment
+                    .includes(:appointment_time, :customer)
+                    .order(:date, 'appointment_times.time')
   end
 
   def new
