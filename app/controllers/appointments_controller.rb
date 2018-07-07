@@ -1,4 +1,6 @@
 class AppointmentsController < ApplicationController
+  before_action :authenticate_customer!, only: :new
+
   def index
     @appointments = Appointment
                     .includes(:appointment_time, :customer)
@@ -11,7 +13,6 @@ class AppointmentsController < ApplicationController
 
   def create
     @appointment = Appointment.new(apointment_params)
-    @appointment.customer_id = 3
     @appointment.appointment_time_id =
       params.dig(:appointment, :appointment_time_id)
     if @appointment.save
