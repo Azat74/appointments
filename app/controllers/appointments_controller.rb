@@ -13,6 +13,7 @@ class AppointmentsController < ApplicationController
 
   def create
     @appointment = Appointment.new(apointment_params)
+    @appointment.customer_id = current_customer.id
     @appointment.appointment_time_id =
       params.dig(:appointment, :appointment_time_id)
     if @appointment.save
