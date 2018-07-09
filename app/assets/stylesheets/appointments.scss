@@ -4,12 +4,33 @@
 .appointments {
   display: flex;
   flex-direction: column;
+  margin-bottom: 10px;
+  .appointments-header {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    .date,
+    .customer,
+    .time {
+      flex: 1;
+      text-align: center;
+    }
+  }
   .appointment {
     display: flex;
     .date,
     .customer,
     .time {
-      flex-basis: 200px;
+      display: flex;
+      flex: 1;
+      height: 35px;
+      padding-left: 15px;
+      align-items: center;
+      border-right: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      &:first-of-type {
+          border-left: 1px solid #ddd;
+      }
     }
   }
 }

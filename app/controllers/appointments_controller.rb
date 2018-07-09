@@ -1,8 +1,9 @@
 class AppointmentsController < ApplicationController
-  before_action :authenticate_customer!, only: :new
+  before_action :authenticate_customer!
 
   def index
     @appointments = Appointment
+                    .where(customer_id: current_customer.id)
                     .includes(:appointment_time, :customer)
                     .order(:date, 'appointment_times.time')
   end
