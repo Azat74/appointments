@@ -14,7 +14,7 @@
     collection_select(
       :appointment,
       :appointment_time_id,
-      AppointmentTime.all,
+      AppointmentTime.order(:time),
       :id,
       :time_to_string
     )
