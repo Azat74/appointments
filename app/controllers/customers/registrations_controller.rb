@@ -2,7 +2,7 @@
 
 class Customers::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
-
+  # binding.pry
   protected
 
   def configure_sign_up_params
