@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  # devise_for :customers, controllers: {
-  #   registrations: 'customers/registrations'
-  # }
   devise_scope :customer do
     get 'sign_up', to: 'customers/registrations#new',
                    as: :new_customer_registration
