@@ -1,4 +1,4 @@
-<%= form_for appointment, url: { action: 'create' } do |f| %>
+<%= semantic_form_for appointment, url: { action: 'create' } do |f| %>
 
   <% if appointment.errors.any? %>
     <ul>
@@ -8,18 +8,10 @@
     </ul>
   <% end %>
 
-  <%= f.label :date %>:
-  <%= f.date_select :date %>
-  <%=
-    collection_select(
-      :appointment,
-      :appointment_time_id,
-      AppointmentTime.order(:time),
-      :id,
-      :time_to_string
-    )
-  %>
+  <%= f.inputs do %>
+    <%= f.input :date %>
+    <%= f.input :appointment_time, collection: AppointmentTime.order(:time) %>
+  <% end %>
 
-
-  <%= submit_tag 'Create' %>
+  <%= f.actions %>
 <% end %>

@@ -7,7 +7,9 @@ class AppointmentTime < ApplicationRecord
     time_to_string
   end
 
+  private
+
   def time_to_string
-    return self.time.strftime("%H:%M")
+    time.strftime('%H:%M')
   end
 end
