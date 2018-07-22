@@ -1,10 +1,10 @@
 class AppointmentsController < ApplicationController
-  before_action :authenticate_customer!
+  before_action :authenticate_user!
 
   def index
     @appointments = Appointment
-                    .where(customer_id: current_customer.id)
-                    .includes(:appointment_time, :customer)
+                    .where(user_id: current_user.id)
+                    .includes(:appointment_time, :user)
                     .order(:date, 'appointment_times.time')
   end
 
@@ -14,7 +14,7 @@ class AppointmentsController < ApplicationController
 
   def create
     @appointment = Appointment.new(apointment_params)
-    @appointment.customer_id = current_customer.id
+    @appointment.user_id = current_user.id
     @appointment.appointment_time_id =
       params.dig(:appointment, :appointment_time_id)
     if @appointment.save

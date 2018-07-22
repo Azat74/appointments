@@ -10,13 +10,13 @@
     <div class="appointment">
       <div class="date"><%= appointment.date %></div>
       <div class="customer">
-        <%= "#{appointment.customer.first_name} \
-             #{appointment.customer.last_name}" %>
+        <%= "#{appointment.user.first_name} #{appointment.user.last_name}" %>
       </div>
       <div class="time">
-        <%= appointment.appointment_time.time_to_string %>
+        <%= appointment.appointment_time %>
       </div>
     </div>
   <% end %>
 </div>
+
 <%= link_to 'New appointment', appointment_path %>
