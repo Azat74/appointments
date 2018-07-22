@@ -2,6 +2,7 @@ class AppointmentsController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    return if current_user.is_admin
     @appointments = Appointment
                     .where(user_id: current_user.id)
                     .includes(:appointment_time, :user)

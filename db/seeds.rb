@@ -16,6 +16,7 @@ User.create(
   first_name: 'Homer',
   last_name: 'Simpson',
   email: 'homer@doeh.com',
+  is_admin: true,
   phone: '13338926094',
   password: '654321'
 )
@@ -23,6 +24,7 @@ User.create(
   first_name: 'Montgomery',
   last_name: 'Burns',
   email: 'mrburns@richest.com',
+  is_admin: true,
   phone: '19999999999',
   password: '123456'
 )
