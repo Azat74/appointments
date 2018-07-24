@@ -10,6 +10,7 @@
 
   <%= f.inputs do %>
     <%= f.input :date %>
+    <%= f.input :user %>
     <%= f.input :appointment_time, collection: AppointmentTime.order(:time) %>
   <% end %>
 

@@ -10,7 +10,8 @@ Rails.application.routes.draw do
                        as: :destroy_user_session
   end
   devise_for :users, skip: :all
+  get 'appointments', to: 'appointments#index'
   get 'appointment', to: 'appointments#new'
   post 'appointment', to: 'appointments#create'
-  root 'appointments#index'
+  root 'calendar#index'
 end

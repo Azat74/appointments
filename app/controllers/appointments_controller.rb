@@ -15,9 +15,6 @@ class AppointmentsController < ApplicationController
 
   def create
     @appointment = Appointment.new(apointment_params)
-    @appointment.user_id = current_user.id
-    @appointment.appointment_time_id =
-      params.dig(:appointment, :appointment_time_id)
     if @appointment.save
       redirect_to root_path
     else
@@ -28,6 +25,6 @@ class AppointmentsController < ApplicationController
   private
 
   def apointment_params
-    params.require(:appointment).permit(:date, :appointment_time_id)
+    params.require(:appointment).permit(:date, :appointment_time_id, :user_id)
   end
 end

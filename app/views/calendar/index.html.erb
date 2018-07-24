@@ -1,0 +1,10 @@
+<h1>Calendar</h1>
+
+<% @appointments.each do |appointment| %>
+  <div class="appointment">
+    <div class="date"><%= appointment.date %></div>
+    <div class="time">
+      <%= appointment.appointment_time %>
+    </div>
+  </div>
+<% end %>
