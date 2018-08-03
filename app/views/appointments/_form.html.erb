@@ -1,8 +1,8 @@
-<%= semantic_form_for appointment, url: { action: 'create' } do |f| %>
+<%= semantic_form_for @appointment do |f| %>
 
-  <% if appointment.errors.any? %>
+  <% if @appointment.errors.any? %>
     <ul>
-      <% appointment.errors.full_messages.each do |msg| %>
+      <% @appointment.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
     </ul>

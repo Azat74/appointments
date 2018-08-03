@@ -5,5 +5,6 @@ class CalendarController < ApplicationController
             .includes(:appointment_time)
             .order(:date, 'appointment_times.time')
             .group_by(&:date)
+    @times = AppointmentTime.order(:time)
   end
 end

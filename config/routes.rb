@@ -12,6 +12,6 @@ Rails.application.routes.draw do
   devise_for :users, skip: :all
   get 'appointments', to: 'appointments#index'
   get 'appointment', to: 'appointments#new'
-  post 'appointment', to: 'appointments#create'
+  post 'appointments', to: 'appointments#create'
   root 'calendar#index'
 end

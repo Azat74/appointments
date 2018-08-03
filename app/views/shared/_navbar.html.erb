@@ -1,0 +1,23 @@
+<ul class="nav justify-content-end">
+  <li class="nav-item">
+    <%= link_to 'Schedule', root_path, class: 'nav-link' %>
+  </li>
+  <% if user_signed_in? %>
+    <% if current_user.is_admin %>
+      <%= link_to 'Create appointment', appointment_path, class: 'nav-link' %>
+    <% end %>
+    <li class="nav-item">
+      <%= link_to 'My appointments', appointments_path, class: 'nav-link' %>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'nav-link' %>
+    </li>
+  <% else %>
+    <li class="nav-item">
+      <%= link_to 'Log in', new_user_session_path, class: 'nav-link' %>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'Sign up', new_user_registration_path, class: 'nav-link' %>
+    </li>
+  <% end %>
+</ul>
