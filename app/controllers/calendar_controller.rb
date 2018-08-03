@@ -1,7 +1,9 @@
 class CalendarController < ApplicationController
   def index
-    @appointments = Appointment
-                    .created_between(2018, 2020)
-                    .includes(:appointment_time)
+    @days = Appointment
+            .created_between(Date.today, Date.today + 2.months)
+            .includes(:appointment_time)
+            .order(:date, 'appointment_times.time')
+            .group_by(&:date)
   end
 end
