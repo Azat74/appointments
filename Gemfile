@@ -36,7 +36,6 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'bootstrap'
 gem 'devise'
-gem 'formtastic'
 gem 'pg'
 
 group :development, :test do

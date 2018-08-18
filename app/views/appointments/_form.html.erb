@@ -1,4 +1,4 @@
-<%= semantic_form_for @appointment do |f| %>
+<%= form_for @appointment do |f| %>
 
   <% if @appointment.errors.any? %>
     <ul>
@@ -8,11 +8,11 @@
     </ul>
   <% end %>
 
-  <%= f.inputs do %>
-    <%= f.input :date %>
-    <%= f.input :user %>
-    <%= f.input :appointment_time, collection: AppointmentTime.order(:time) %>
-  <% end %>
+  <%= f.time_select(:time) %>
+  <%= f.collection_select(:user_id, User.all, :id, :to_s, {},
+                          { class: 'form-control'}) %>
+  <%= f.collection_select(:day_id, Day.order(:date), :id, :to_s, {},
+                          { class: 'form-control'}) %>
 
-  <%= f.actions %>
+  <%= f.submit class: 'btn btn-primary' %>
 <% end %>

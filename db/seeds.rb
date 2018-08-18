@@ -29,12 +29,23 @@ User.create(
   password: '123456'
 )
 
-AppointmentTime.create(time: '10:30')
-AppointmentTime.create(time: '12:00')
-AppointmentTime.create(time: '15:00')
-AppointmentTime.create(time: '13:30')
+Day.create(
+  date: '2018-08-15'
+)
 
-Appointment.create(user_id: 2, appointment_time_id: 2, date: '2018-07-15')
-Appointment.create(user_id: 2, appointment_time_id: 3, date: '2018-07-25')
-Appointment.create(user_id: 3, appointment_time_id: 1, date: '2018-08-2')
-Appointment.create(user_id: 4, appointment_time_id: 4, date: '2018-08-12')
+Day.create(
+  date: '2018-08-25'
+)
+
+Day.create(
+  date: '2018-09-02'
+)
+
+Day.create(
+  date: '2018-09-12'
+)
+
+Appointment.create(user_id: 3, day_id: 1, time: '09:00')
+Appointment.create(user_id: 3, day_id: 1, time: '11:00')
+Appointment.create(user_id: 3, day_id: 2, time: '18:00')
+Appointment.create(user_id: 3, day_id: 3, time: '20:00')

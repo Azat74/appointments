@@ -4,8 +4,8 @@ class AppointmentsController < ApplicationController
   def index
     @appointments = Appointment
                     .active(current_user.id)
-                    .includes(:appointment_time)
-                    .order(:date, 'appointment_times.time')
+                    .includes(:day)
+                    .order(:time, 'days.date')
   end
 
   def new
@@ -24,6 +24,6 @@ class AppointmentsController < ApplicationController
   private
 
   def apointment_params
-    params.require(:appointment).permit(:date, :appointment_time_id, :user_id)
+    params.require(:appointment).permit(:time, :day_id, :user_id)
   end
 end

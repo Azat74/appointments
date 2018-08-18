@@ -1,28 +1,19 @@
-class TimeValidator < ActiveModel::Validator
-  def validate(record)
-    if record.date < Date.today
-      record.errors[:date_error] << 'Appointment date must be valid'
-    end
-  end
-end
-
 class Appointment < ApplicationRecord
-  belongs_to :user
-  belongs_to :appointment_time
-  validates :date, :user_id, :appointment_time_id, presence: true
-  validates :appointment_time_id,
-            uniqueness: { scope: :date, message: 'only once per day' }
-  validates_with TimeValidator
+  belongs_to :user, optional: true
+  belongs_to :day
+  validates :time, presence: true
+  validates :time, uniqueness: { scope: :day,
+                                 message: 'only once per day' }
 
   def to_s
-    "#{date} #{user} #{appointment_time}"
+    "#{user} #{time.strftime('%H:%M')}"
   end
 
   def self.created_between(first, last)
-    where('date BETWEEN ? AND ?', first, last)
+    where('days.date BETWEEN ? AND ?', first, last)
   end
 
   def self.active(id)
-    where('date >= ? AND user_id = ?', Date.today, id)
+    where('days.date >= ? AND user_id = ?', Date.today, id)
   end
 end

@@ -4,10 +4,9 @@ require 'rails_helper'
 
 RSpec.describe Appointment, type: :model do
   context 'validations' do
-    it { should validate_presence_of(:date) }
-    it { should validate_presence_of(:customer_id) }
-    it { should validate_presence_of(:appointment_time_id) }
-    it { should belong_to(:customer) }
-    it { should belong_to(:appointment_time) }
+    it { should validate_presence_of(:time) }
+    it { should validate_presence_of(:user_id) }
+    it { should belong_to(:user) }
+    it { should belong_to(:day) }
   end
 end

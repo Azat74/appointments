@@ -1,0 +1,14 @@
+<%= form_for @day do |f| %>
+
+  <% if @day.errors.any? %>
+    <ul>
+      <% @day.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= f.date_select(:date, {}, { class: 'form-control' }) %>
+
+  <%= f.submit class: 'btn btn-primary' %>
+<% end %>
