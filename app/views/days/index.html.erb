@@ -6,11 +6,14 @@
     <% @days.each do |day| %>
       <div class="col-3">
         <div class="card">
-          <div class="card-header"><%= day %></div>
+          <div class="card-header">
+            <%= day %>
+            <%= link_to 'edit', edit_day_path(day) %>
+          </div>
           <ul class="list-group list-group-flush">
             <% day.appointments.each do |appointment| %>
               <li class="list-group-item">
-                <%= appointment %> <%= link_to 'edit', edit_day_path(appointment) %>
+                <%= appointment %>
               </li>
             <% end %>
           </ul>

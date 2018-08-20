@@ -1,18 +1,10 @@
-<%= form_for @appointment do |f| %>
-
-  <% if @appointment.errors.any? %>
-    <ul>
-      <% @appointment.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
+<div id='app'>
+   <%= content_tag :div,
+  id: "appointment-form",
+  data: {
+    appointment: @appointment.to_json(except: [:created_at, :updated_at])
+  } do %>
+    <label for="time">Select Time</label>
+    <input v-model="appointment.time" id="time" type="text" />
   <% end %>
-
-  <%= f.time_select(:time) %>
-  <%= f.collection_select(:user_id, User.all, :id, :to_s, {},
-                          { class: 'form-control'}) %>
-  <%= f.collection_select(:day_id, Day.order(:date), :id, :to_s, {},
-                          { class: 'form-control'}) %>
-
-  <%= f.submit class: 'btn btn-primary' %>
-<% end %>
+</div>

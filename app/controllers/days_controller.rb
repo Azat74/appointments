@@ -17,10 +17,11 @@ class DaysController < ApplicationController
 
   def create
     @day = Day.new(day_params)
-    if @day.save
-      redirect_to root_path
-    else
-      render 'new'
+
+    respond_to do |format|
+      if @day.save
+        format.json { render json: @day }
+      end
     end
   end
 
@@ -34,9 +35,14 @@ class DaysController < ApplicationController
     end
   end
 
+  def destroy
+    @day = Day.find(params[:id])
+    @day.destroy
+  end
+
   private
 
   def day_params
-    params.require(:day).permit(:id, :date)
+    params.require(:day).permit(:date)
   end
 end

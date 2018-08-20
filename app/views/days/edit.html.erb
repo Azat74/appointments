@@ -1,12 +1,14 @@
-<div class="container">
-  <div class="row">
-    <div class="col-6 offset-3">
-      <h1>Edit work day</h1>
-    </div>
+<% content_for :head do %>
+  <%= javascript_pack_tag 'day_form', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_pack_tag 'day_form', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+
+<div class="columns">
+  <div class="column">
+    <h1>Edit work day</h1>
   </div>
-  <div class="row">
-    <div class="col-6 offset-3">
-      <%= render 'form' %>
-    </div>
-  </div>
+</div>
+<div class="column">
+  <%= render 'form' %>
 </div>

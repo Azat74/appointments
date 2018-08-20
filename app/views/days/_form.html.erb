@@ -1,14 +1,19 @@
-<%= form_for @day do |f| %>
+<div id='app'>
+   <%= content_tag :div,
+  id: "days-form",
+  data: {
+    day: @day.to_json(except: [:created_at, :updated_at])
+  } do %>
 
-  <% if @day.errors.any? %>
-    <ul>
-      <% @day.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
+    <el-date-picker
+      v-model="day.date"
+      type="date"
+      placeholder="Pick a day">
+    </el-date-picker>
+
+    <button @click="saveDay" class="btn btn-primary">{{ btnValue }}</button>
+    <button v-if="day.id" class="btn btn-danger" @click="deleteDay">
+      Delete
+    </button>
   <% end %>
-
-  <%= f.date_select(:date, {}, { class: 'form-control' }) %>
-
-  <%= f.submit class: 'btn btn-primary' %>
-<% end %>
+</div>
