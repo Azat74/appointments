@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    build: ./docker/postgres/
+    ports:
+      - 5432:5432
+    volumes:
+      - appointments_db:/var/lib/postgresql/data:rw
+    environment:
+      # TODO handle with database.yml
+      - DB_NAME=${DB_NAME}
+volumes:
+  appointments_db:
+    driver: local
