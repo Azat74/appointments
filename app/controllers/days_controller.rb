@@ -1,6 +1,8 @@
 class DaysController < ApplicationController
   def index
-    @days = Day.includes(:appointments).order(:date)
+    @days = Day
+            .includes(:appointments)
+            .order(:date)
   end
 
   def show

@@ -11,8 +11,17 @@
       placeholder="Pick a day">
     </el-date-picker>
 
-    <button @click="saveDay" class="btn btn-primary">{{ btnValue }}</button>
-    <button v-if="day.id" class="btn btn-danger" @click="deleteDay">
+    <button
+      @click="saveDay"
+      class="btn btn-primary"
+    >
+      {{ btnValue }}
+    </button>
+    <button
+      v-if="day.id"
+      class="btn btn-danger"
+      @click="deleteDay"
+    >
       Delete
     </button>
   <% end %>

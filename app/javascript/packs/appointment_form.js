@@ -1,9 +1,13 @@
 import VueResource from 'vue-resource';
 import TurbolinksAdapter from 'vue-turbolinks'
-import Vue from 'vue/dist/vue.esm'
+import Vue from 'vue/dist/vue.min.js';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import locale from 'element-ui/lib/locale/lang/en'
 
 
-Vue.use(TurbolinksAdapter)
+Vue.use(ElementUI, { locale });
+Vue.use(TurbolinksAdapter);
 Vue.use(VueResource);
 
 document.addEventListener('turbolinks:load', () => {
@@ -12,42 +16,55 @@ document.addEventListener('turbolinks:load', () => {
     .getAttribute('content')
 
   const element = document.getElementById('appointment-form');
-  if (element != null) {
-    const appointment = JSON.parse(element.dataset.appointment);
 
+  if (element != null) {
+    // TODO Clear dataset after parsing.
+    const appointment = JSON.parse(element.dataset.appointment);
+    const days = JSON.parse(element.dataset.days);
+    const users = JSON.parse(element.dataset.users);
     new Vue({
       el: '#app',
       data: {
         appointment: appointment,
+        days: days,
+        dayId: '',
+        users: users,
+        userName: '',
+        user: {},
+        time: '',
+        state: 'selectDate',
       },
-      created: function() {
-        this.day.id == null
-          ? this.btnValue = 'Create'
-          : this.btnValue = 'Update';
-      },
+      created: function() {},
       methods: {
-        saveDay: function() {
-          if (this.day.id == null) {
-            this.$http.post('/days', { date: this.day.date })
-              .then((res) => {
-                Turbolinks.visit(`/days`);
-              });
-          } else {
-            this.$http.put(
-              `/days/${this.day.id}`,
-              {id: this.day.id, date: this.day.date }
-            ).then((res) => {
-              Turbolinks.visit('/days');
-            });
-          }
+        confirmDate(id) {
+          this.dayId = id;
+          this.state = 'selectTime';
         },
-        deleteDay: function() {
-          this.$http.delete(`/days/${this.day.id}`)
-            .then((res) => {
-              Turbolinks.visit('/days');
-            });
+        querySearch(queryString, cb) {
+          // TODO Add lazy loading of users list.
+          let result = this.users.filter((user) => {
+            return user.first_name
+              .toLowerCase()
+              .startsWith(queryString.toLowerCase());
+          });
+          cb(result);
+        },
+        handleSelect(user) {
+          this.user = user;
+        },
+        createAppointment() {
+          this.$http.post(
+            '/appointments',
+            {
+              user_id: this.user.id,
+              day_id: this.dayId,
+              time: this.time
+            }
+          ).then((res) => {
+            Turbolinks.visit('/days');
+          });
         }
-      },
+      }
     });
   }
 

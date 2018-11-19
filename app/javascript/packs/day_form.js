@@ -1,11 +1,9 @@
 import VueResource from 'vue-resource';
 import TurbolinksAdapter from 'vue-turbolinks';
-import Vue from 'vue/dist/vue.esm';
+import Vue from 'vue/dist/vue.min.js';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/en'
-
-import App from '../app.vue';
 
 
 Vue.use(ElementUI, { locale });

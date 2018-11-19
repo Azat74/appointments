@@ -10,6 +10,7 @@ class AppointmentsController < ApplicationController
 
   def new
     @appointment = Appointment.new
+    @days = Day.all
   end
 
   def create

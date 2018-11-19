@@ -4,7 +4,26 @@
   data: {
     appointment: @appointment.to_json(except: [:created_at, :updated_at])
   } do %>
-    <label for="time">Select Time</label>
-    <input v-model="appointment.time" id="time" type="text" />
+
+  <el-date-picker
+    v-model="appointment.date"
+    type="date"
+    placeholder="Pick a day">
+  </el-date-picker>
+
+  <button
+    @click="saveAppointment"
+    class="btn btn-primary"
+  >
+    {{ btnValue }}
+  </button>
+  <button
+    v-if="appointment.id"
+    class="btn btn-danger"
+    @click="deleteAppointment"
+  >
+    Delete
+  </button>
+
   <% end %>
 </div>
