@@ -22,7 +22,7 @@ document.addEventListener('turbolinks:load', () => {
     const appointment = JSON.parse(element.dataset.appointment);
     const days = JSON.parse(element.dataset.days);
     const users = JSON.parse(element.dataset.users);
-    new Vue({
+    const app = new Vue({
       el: '#app',
       data: {
         appointment: appointment,
@@ -33,8 +33,11 @@ document.addEventListener('turbolinks:load', () => {
         user: {},
         time: '',
         state: 'selectDate',
+        isLoading: true
       },
-      created: function() {},
+      mounted() {
+        this.isLoading = false;
+      },
       methods: {
         confirmDate(id) {
           this.dayId = id;
@@ -67,5 +70,4 @@ document.addEventListener('turbolinks:load', () => {
       }
     });
   }
-
 });

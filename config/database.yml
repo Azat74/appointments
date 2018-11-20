@@ -2,7 +2,7 @@ default: &default
   adapter: postgresql
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   # TODO refactor
-  host: 172.22.0.2
+  host: 172.20.0.2
   username: postgres
   timeout: 5000
 
