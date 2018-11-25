@@ -3,6 +3,14 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
 
+  def create
+    super
+    # TODO Add mailer when user created.
+    if resource.save
+      UserMailer.with(user: resource).welcome_email.deliver_later
+    end
+  end
+
   protected
 
   def configure_sign_up_params
