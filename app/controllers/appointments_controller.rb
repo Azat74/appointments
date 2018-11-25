@@ -17,7 +17,7 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new(apointment_params)
     if @appointment.save
       AppointmentMailer
-        .with(appointment: @appointment, user: @appointment.user)
+        .with(appointment: @appointment)
         .new_appointment
         .deliver_later
       redirect_to root_path

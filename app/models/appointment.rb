@@ -1,5 +1,5 @@
 class Appointment < ApplicationRecord
-  belongs_to :user, optional: true
+  belongs_to :user
   belongs_to :day
   validates :time, presence: true
   validates :time, uniqueness: { scope: :day,
