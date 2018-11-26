@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  # TODO: Dockerize for production
+  appointments:
+    build: .
+    ports:
+      - 3000:3000
+    command: foreman start
+    environment:
+      - DB_HOST=db
+    depends_on:
+      - db
   db:
     build: ./docker/postgres/
     ports:
@@ -8,7 +18,7 @@ services:
     volumes:
       - appointments_db:/var/lib/postgresql/data:rw
     environment:
-      # TODO handle with database.yml
+      # TODO: handle with database.yml
       - DB_NAME=${DB_NAME}
 volumes:
   appointments_db:
