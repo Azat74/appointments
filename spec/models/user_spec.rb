@@ -7,6 +7,5 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of(:last_name) }
     it { should validate_uniqueness_of(:phone) }
     it { should have_many(:appointments) }
-    it { should have_many(:appointment_times) }
   end
 end
