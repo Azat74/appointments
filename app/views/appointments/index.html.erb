@@ -1,22 +1,19 @@
-<h1>Appointments</h1>
-
-<div class="appointments">
-    <div class="appointments-header">
-      <div class="date">Date</div>
-      <div class="customer">Customer</div>
-      <div class="time">Time</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h1>Appointments</h1>
     </div>
-  <% @appointments.each do |appointment| %>
-    <div class="appointment">
-      <div class="date"><%= appointment.date %></div>
-      <div class="customer">
-        <%= "#{appointment.customer.first_name} \
-             #{appointment.customer.last_name}" %>
+  </div>
+  <div class="row">
+    <% @appointments.each do |appointment| %>
+      <div class="col-3">
+        <div class="card">
+          <div class="card-header"><%= appointment.working_day %></div>
+          <div class="card-body">
+            <%= appointment.time.strftime('%H:%M') %>
+          </div>
+        </div>
       </div>
-      <div class="time">
-        <%= appointment.appointment_time.time_to_string %>
-      </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
-<%= link_to 'New appointment', appointment_path %>

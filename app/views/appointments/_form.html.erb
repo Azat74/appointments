@@ -1,25 +1,58 @@
-<%= form_for appointment, url: { action: 'create' } do |f| %>
-
-  <% if appointment.errors.any? %>
-    <ul>
-      <% appointment.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
+<div id="app">
+  <%= content_tag :div,
+      id: "appointment-form",
+      class: "row",
+      data: {
+        days: @days.to_json(except: [:created_at, :updated_at]),
+        appointment: @appointment.to_json(
+            except: [:created_at, :updated_at]
+        ),
+        # TODO Add lazy loading of users list.
+        users: User.all
+      } do %>
+      <template v-if="isLoading">
+        <div>...loading</div>
+      </template>
+      <template v-else>
+        <div v-if="state == 'selectDate'"
+             v-for="day in days"
+             class="col-3"
+             v-bind:key="day.id"
+        >
+          <div @click="confirmDate(day.id)"
+               class="card mb-4"
+          >
+            <div class="card-body">
+              <!-- TODO refactor -->
+              {{ new Date(day.date).toLocaleDateString('ru') }}
+            </div>
+          </div>
+        </div>
+        <div v-if="state == 'selectTime'">
+          <el-autocomplete
+            class="inline-input"
+            v-model="userName"
+            :fetch-suggestions="querySearch"
+            placeholder="Customer name"
+            :trigger-on-focus="false"
+            @select="handleSelect"
+            value-key="first_name">
+          </el-autocomplete>
+          <el-time-select
+            v-model="time"
+            :picker-options="{
+              start: '08:30',
+              step: '00:15',
+              end: '18:30'
+            }"
+            placeholder="Select time">
+          </el-time-select>
+          <button @click="createAppointment"
+                  class="btn btn-primary"
+          >
+            Create
+          </button>
+        </div>
+      </template>
   <% end %>
-
-  <%= f.label :date %>:
-  <%= f.date_select :date %>
-  <%=
-    collection_select(
-      :appointment,
-      :appointment_time_id,
-      AppointmentTime.order(:time),
-      :id,
-      :time_to_string
-    )
-  %>
-
-
-  <%= submit_tag 'Create' %>
-<% end %>
+</div>

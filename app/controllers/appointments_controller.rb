@@ -1,23 +1,22 @@
 class AppointmentsController < ApplicationController
-  before_action :authenticate_customer!
+  before_action :authenticate_user!
 
   def index
-    @appointments = Appointment
-                    .where(customer_id: current_customer.id)
-                    .includes(:appointment_time, :customer)
-                    .order(:date, 'appointment_times.time')
+    @appointments = Appointment.active(current_user.id)
   end
 
   def new
     @appointment = Appointment.new
+    @days = WorkingDay.order(:date)
   end
 
   def create
     @appointment = Appointment.new(apointment_params)
-    @appointment.customer_id = current_customer.id
-    @appointment.appointment_time_id =
-      params.dig(:appointment, :appointment_time_id)
     if @appointment.save
+      AppointmentMailer
+        .with(appointment: @appointment)
+        .new_appointment
+        .deliver_later
       redirect_to root_path
     else
       render 'new'
@@ -27,6 +26,6 @@ class AppointmentsController < ApplicationController
   private
 
   def apointment_params
-    params.require(:appointment).permit(:date, :appointment_time_id)
+    params.require(:appointment).permit(:time, :working_day_id, :user_id)
   end
 end

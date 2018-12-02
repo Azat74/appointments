@@ -7,17 +7,16 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'bootstrap' %>
+    <% if content_for? :head %>
+      <%= yield :head %>
+    <% end %>
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <% if customer_signed_in? %>
-      <p><%= link_to 'Logout',  destroy_customer_session_path, method: :delete %></p>
-    <% else %>
-      <p><%= link_to 'Log in', new_customer_session_path %></p>
-      <p><%= link_to 'Sign up', new_customer_registration_path %></p>
-    <% end %>
+    <%= render 'shared/navbar' %>
+    <div class="notice"><%= notice %></div>
+    <div class="alert"><%= alert %></div>
     <%= yield %>
   </body>
 </html>

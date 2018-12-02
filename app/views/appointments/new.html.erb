@@ -1,4 +1,19 @@
-<h1>Create new appointment</h1>
-<%= render 'form', appointment: @appointment %>
+<% content_for :head do %>
+  <%= javascript_pack_tag 'appointment_form',
+                          'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_pack_tag 'appointment_form',
+                          'data-turbolinks-track': 'reload' %>
+<% end %>
 
-<%= link_to 'appointments', root_path %>
+<div class="container">
+  <div class="row">
+    <div class="col-6 offset-3">
+      <h1>Pick date</h1>
+    </div>
+  </div>
+  <!-- TODO Add form states -->
+  <div class="row">
+    <div class="col"><%= link_to 'Back', working_days_path %></div>
+  </div>
+  <%= render 'form' %>
+</div>

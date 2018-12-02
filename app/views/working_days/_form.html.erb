@@ -1,0 +1,28 @@
+<div id='app'>
+   <%= content_tag :div,
+  id: "days-form",
+  data: {
+    day: @day.to_json(except: [:created_at, :updated_at])
+  } do %>
+
+    <el-date-picker
+      v-model="day.date"
+      type="date"
+      placeholder="Pick a day">
+    </el-date-picker>
+
+    <button
+      @click="saveDay"
+      class="btn btn-primary"
+    >
+      {{ btnValue }}
+    </button>
+    <button
+      v-if="day.id"
+      class="btn btn-danger"
+      @click="deleteDay"
+    >
+      Delete
+    </button>
+  <% end %>
+</div>

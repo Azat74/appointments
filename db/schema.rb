@@ -10,23 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_07_153551) do
+ActiveRecord::Schema.define(version: 2018_12_02_110530) do
 
-  create_table "appointment_times", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "time"
-  end
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "appointments", force: :cascade do |t|
-    t.date "date"
-    t.integer "customer_id"
-    t.integer "appointment_time_id"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "working_day_id"
+    t.time "time"
+    t.index ["time"], name: "index_appointments_on_time"
+    t.index ["working_day_id"], name: "index_appointments_on_working_day_id"
   end
 
-  create_table "customers", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "email"
@@ -42,9 +41,17 @@ ActiveRecord::Schema.define(version: 2018_07_07_153551) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.index ["email"], name: "index_customers_on_email", unique: true
-    t.index ["phone"], name: "index_customers_on_phone"
-    t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
+    t.boolean "is_admin"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["phone"], name: "index_users_on_phone"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "working_days", force: :cascade do |t|
+    t.datetime "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "appointments", "working_days"
 end
