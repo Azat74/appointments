@@ -2,6 +2,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   has_many :appointments
+  has_many :working_days, through: :appointments
   validates :phone, :first_name, :last_name, presence: true
   validates :phone, uniqueness: true
   validates :phone, format: {

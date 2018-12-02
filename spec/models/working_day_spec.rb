@@ -7,5 +7,6 @@ RSpec.describe WorkingDay, type: :model do
 
   context 'associations' do
     it { should have_many(:appointments) }
+    it { should have_many(:users) }
   end
 end
