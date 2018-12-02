@@ -60,11 +60,11 @@ document.addEventListener('turbolinks:load', () => {
             '/appointments',
             {
               user_id: this.user.id,
-              day_id: this.dayId,
+              working_day_id: this.dayId,
               time: this.time
             }
           ).then((res) => {
-            Turbolinks.visit('/days');
+            Turbolinks.visit('/working_days');
           });
         }
       }

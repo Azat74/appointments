@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_11_181326) do
+ActiveRecord::Schema.define(version: 2018_12_02_110530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,16 +19,10 @@ ActiveRecord::Schema.define(version: 2018_08_11_181326) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "day_id"
+    t.bigint "working_day_id"
     t.time "time"
-    t.index ["day_id"], name: "index_appointments_on_day_id"
     t.index ["time"], name: "index_appointments_on_time"
-  end
-
-  create_table "days", force: :cascade do |t|
-    t.datetime "date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["working_day_id"], name: "index_appointments_on_working_day_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -53,5 +47,11 @@ ActiveRecord::Schema.define(version: 2018_08_11_181326) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "appointments", "days"
+  create_table "working_days", force: :cascade do |t|
+    t.datetime "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "appointments", "working_days"
 end

@@ -2,15 +2,12 @@ class AppointmentsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @appointments = Appointment
-                    .active(current_user.id)
-                    .includes(:day)
-                    .order(:time, 'days.date')
+    @appointments = Appointment.active(current_user.id)
   end
 
   def new
     @appointment = Appointment.new
-    @days = Day.all
+    @days = WorkingDay.order(:date)
   end
 
   def create
@@ -29,6 +26,6 @@ class AppointmentsController < ApplicationController
   private
 
   def apointment_params
-    params.require(:appointment).permit(:time, :day_id, :user_id)
+    params.require(:appointment).permit(:time, :working_day_id, :user_id)
   end
 end

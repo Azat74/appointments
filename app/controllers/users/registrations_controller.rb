@@ -1,14 +1,9 @@
-# frozen_string_literal: true
-
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
 
   def create
     super
-    # TODO Add mailer when user created.
-    if resource.save
-      UserMailer.with(user: resource).welcome_email.deliver_later
-    end
+    UserMailer.with(user: resource).welcome_email.deliver_later if resource.save
   end
 
   protected

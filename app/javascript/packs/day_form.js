@@ -32,23 +32,23 @@ document.addEventListener('turbolinks:load', () => {
     methods: {
       saveDay: function() {
         if (this.day.id == null) {
-          this.$http.post('/days', { date: this.day.date })
+          this.$http.post('/working_days', { date: this.day.date })
             .then((res) => {
-              Turbolinks.visit(`/days`);
+              Turbolinks.visit(`/working_days`);
             });
         } else {
           this.$http.put(
-            `/days/${this.day.id}`,
+            `/working_days/${this.day.id}`,
             {id: this.day.id, date: this.day.date }
           ).then((res) => {
-            Turbolinks.visit('/days');
+            Turbolinks.visit('/working_days');
           });
         }
       },
       deleteDay: function() {
-        this.$http.delete(`/days/${this.day.id}`)
+        this.$http.delete(`/working_days/${this.day.id}`)
           .then((res) => {
-            Turbolinks.visit('/days');
+            Turbolinks.visit('/working_days');
           });
       }
     },

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
                        as: :destroy_user_session
   end
   devise_for :users, skip: :all
-  resources :days
+  resources :working_days
   get 'appointments', to: 'appointments#index'
   get 'appointment', to: 'appointments#new'
   post 'appointments', to: 'appointments#create'

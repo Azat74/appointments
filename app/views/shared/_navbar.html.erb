@@ -1,6 +1,6 @@
 <ul class="nav justify-content-end">
   <li class="nav-item">
-    <%= link_to 'Schedule', days_path, class: 'nav-link' %>
+    <%= link_to 'Schedule', working_days_path, class: 'nav-link' %>
   </li>
   <% if user_signed_in? %>
     <% if current_user.is_admin %>

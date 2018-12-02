@@ -8,7 +8,7 @@
     <% @appointments.each do |appointment| %>
       <div class="col-3">
         <div class="card">
-          <div class="card-header"><%= appointment.day %></div>
+          <div class="card-header"><%= appointment.working_day %></div>
           <div class="card-body">
             <%= appointment.time.strftime('%H:%M') %>
           </div>

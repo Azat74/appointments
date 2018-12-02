@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col"><%= link_to 'Add day', new_day_path %></div>
+    <div class="col"><%= link_to 'Add day', new_working_day_path %></div>
   </div>
   <div class="row">
     <% @days.each do |day| %>
@@ -8,7 +8,7 @@
         <div class="card">
           <div class="card-header">
             <%= day %>
-            <%= link_to 'edit', edit_day_path(day) %>
+            <%= link_to 'edit', edit_working_day_path(day) %>
           </div>
           <ul class="list-group list-group-flush">
             <% day.appointments.each do |appointment| %>
