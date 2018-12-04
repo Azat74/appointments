@@ -11,9 +11,11 @@ Vue.use(TurbolinksAdapter);
 Vue.use(VueResource);
 
 document.addEventListener('turbolinks:load', () => {
-  Vue.http.headers.common['X-CSRF-Token'] = document
-    .querySelector('meta[name="csrf-token"]')
-    .getAttribute('content')
+  if (process.env.RAILS_ENV !== 'test') {
+    Vue.http.headers.common['X-CSRF-Token'] = document
+      .querySelector('meta[name="csrf-token"]')
+      .getAttribute('content')
+  }
 
   const element = document.getElementById('days-form');
   const day = JSON.parse(element.dataset.day);
@@ -51,8 +53,7 @@ document.addEventListener('turbolinks:load', () => {
             Turbolinks.visit('/working_days');
           });
       }
-    },
-    components: { App }
+    }
   });
 
 });
