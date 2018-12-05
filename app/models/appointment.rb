@@ -10,7 +10,9 @@ class Appointment < ApplicationRecord
   end
 
   def self.created_between(first, last)
-    where('working_days.date BETWEEN ? AND ?', first, last)
+    includes(:working_day)
+      .where('working_days.date BETWEEN ? AND ?', first, last)
+      .order(:time, 'working_days.date')
   end
 
   def self.active(id)

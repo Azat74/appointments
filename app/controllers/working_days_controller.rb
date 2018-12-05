@@ -1,8 +1,6 @@
 class WorkingDaysController < ApplicationController
   def index
-    @days = WorkingDay
-            .includes(:appointments)
-            .order(:date)
+    @days = WorkingDay.available
   end
 
   def show
@@ -21,9 +19,7 @@ class WorkingDaysController < ApplicationController
     @day = WorkingDay.new(working_day_params)
 
     respond_to do |format|
-      if @day.save
-        format.json { render json: @day }
-      end
+      format.json { render json: @day } if @day.save
     end
   end
 
