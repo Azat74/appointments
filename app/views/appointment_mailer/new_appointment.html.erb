@@ -6,8 +6,8 @@
   <body>
     <h1>Hello, <%= @appointment.user.first_name %></h1>
     <p>
-      <!-- TODO: Improve date handling -->
-      You have new appointment <%= @appointment.day.date %> at <%= @appointment.time %>
+      You have new appointment <%= @appointment.working_day.to_s %>
+      at <%= @appointment.time.strftime('%H:%M') %>
     </p>
     <p>Thanks for joining and have a great day!</p>
   </body>
