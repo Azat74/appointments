@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   context 'validations' do
-    it { should validate_presence_of(:phone) }
-    it { should validate_presence_of(:first_name) }
-    it { should validate_presence_of(:last_name) }
-    it { should validate_uniqueness_of(:phone) }
+    it { is_expected.to validate_presence_of(:phone) }
+    it { is_expected.to validate_presence_of(:first_name) }
+    it { is_expected.to validate_presence_of(:last_name) }
+    it { is_expected.to validate_uniqueness_of(:phone) }
   end
 
   context 'associations' do
-    it { should have_many(:appointments) }
-    it { should have_many(:working_days) }
+    it { is_expected.to have_many(:appointments) }
+    it { is_expected.to have_many(:working_days) }
   end
 end
