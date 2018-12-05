@@ -11,12 +11,10 @@ class AppointmentsController < ApplicationController
   end
 
   def create
-    @appointment = Appointment.new(apointment_params)
-    if @appointment.save
-      AppointmentMailer
-        .with(appointment: @appointment)
-        .new_appointment
-        .deliver_later
+    result = MakeAppointment.call(
+      params: appointment_params
+    )
+    if result.success?
       redirect_to root_path
     else
       render 'new'
@@ -25,7 +23,7 @@ class AppointmentsController < ApplicationController
 
   private
 
-  def apointment_params
+  def appointment_params
     params.require(:appointment).permit(:time, :working_day_id, :user_id)
   end
 end
