@@ -1,0 +1,2 @@
+class WorkingDayPolicy < ApplicationPolicy
+end
