@@ -1,7 +1,6 @@
 class WorkingDaysController < ApplicationController
   def index
     @days = WorkingDay.available
-    @day = WorkingDay
   end
 
   def show
