@@ -1,7 +1,9 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col"><%= link_to 'Add day', new_working_day_path %></div>
-  </div>
+  <% if current_user.is_admin %>
+    <div class="row">
+      <div class="col"><%= link_to 'Add day', new_working_day_path %></div>
+    </div>
+  <% end %>
   <div class="row">
     <% @days.each do |day| %>
       <div class="col-3">
