@@ -1,8 +1,6 @@
 class V1::AppointmentsController < ApplicationController
   def index
-    @appointments = Appointment.all
-    authorize @appointments
-    render json: @appointments
+    render json: Appointment.active(current_user.id)
   end
 
   def new

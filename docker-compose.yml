@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-  # TODO: Dockerize for production
   appointments:
     build: .
     ports:
@@ -9,6 +8,9 @@ services:
     command: foreman start
     environment:
       - DB_HOST=db
+    # Only for quick dev
+    volumes:
+      - .:/app
     depends_on:
       - db
   db:
