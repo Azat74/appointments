@@ -1,6 +1,7 @@
-class WorkingDaysController < ApplicationController
+class V1::WorkingDaysController < ApplicationController
   def index
     @days = WorkingDay.available
+    render json: @days
   end
 
   def show

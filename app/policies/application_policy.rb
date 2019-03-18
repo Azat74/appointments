@@ -6,6 +6,14 @@ class ApplicationPolicy
     @record = record
   end
 
+  def index?
+    @user
+  end
+
+  def show?
+    index?
+  end
+
   def new?
     create?
   end
