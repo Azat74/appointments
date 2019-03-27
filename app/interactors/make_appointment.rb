@@ -1,5 +1,5 @@
 class MakeAppointment
   include Interactor::Organizer
-
-  organize CreateAppointment, SendAppointmentNotification
+  # TODO: Disabled temprorary for Heroku, SendAppointmentNotification
+  organize CreateAppointment
 end

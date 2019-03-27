@@ -1,11 +1,10 @@
 class V1::AppointmentsController < ApplicationController
-  def index
-    render json: Appointment.active(current_user.id)
-  end
+  before_action :authenticate_user!
 
-  def new
-    @appointment = Appointment.new
-    @days = WorkingDay.order(:date)
+  def index
+    render json: Appointment
+      .of_user(current_user)
+      .page(params[:page]).per(params[:per_page])
   end
 
   def create
@@ -13,9 +12,9 @@ class V1::AppointmentsController < ApplicationController
       params: appointment_params
     )
     if result.success?
-      redirect_to root_path
+      render json: result.appointment, status: :ok
     else
-      render 'new'
+      unprocessable_entity result.errors
     end
   end
 

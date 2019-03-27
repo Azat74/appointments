@@ -1,47 +1,49 @@
 class V1::WorkingDaysController < ApplicationController
+  before_action :set_working_day, only: %i[show update destroy]
+  before_action :authenticate_user!
+
   def index
-    @days = WorkingDay.available
-    render json: @days
+    render json: WorkingDay
+      .available
+      .page(params[:page]).per(params[:per_page])
   end
 
   def show
-    @day = WorkingDay.find(params[:id])
-  end
-
-  def new
-    @day = WorkingDay.new
-  end
-
-  def edit
-    @day = WorkingDay.find(params[:id])
+    render json: @day
   end
 
   def create
-    @day = WorkingDay.new(working_day_params)
-
-    respond_to do |format|
-      format.json { render json: @day } if @day.save
+    day = WorkingDay.new(working_day_params)
+    if day.save
+      render json: day
+    else
+      unprocessable_entity day.errors
     end
   end
 
   def update
-    @day = WorkingDay.find(params[:id])
-
-    if @day.update(working_day_params)
-      redirect_to @day
+    if @day.update_attributes(working_day_params)
+      render json: @day
     else
-      render 'edit'
+      unprocessable_entity @day.errors
     end
   end
 
   def destroy
-    @day = WorkingDay.find(params[:id])
-    @day.destroy
+    if @day.destroy
+      render json: {}, status: :ok
+    else
+      unprocessable_entity @day.errors
+    end
   end
 
   private
 
   def working_day_params
     params.require(:working_day).permit(:date)
+  end
+
+  def set_working_day
+    @day = WorkingDay.find(params[:id])
   end
 end

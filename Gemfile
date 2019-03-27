@@ -20,6 +20,10 @@ gem 'interactor'
 
 gem 'pundit'
 
+gem 'kaminari'
+
+gem 'active_model_serializers'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -36,7 +40,6 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '>= 2.15', '< 4.0'
   gem 'shoulda-matchers', '~> 3.1'
 end
 

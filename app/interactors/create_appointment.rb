@@ -6,6 +6,7 @@ class CreateAppointment
     if appointment.save
       context.appointment = appointment
     else
+      context.errors = appointment.errors
       context.fail!
     end
   end

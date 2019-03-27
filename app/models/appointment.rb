@@ -20,4 +20,8 @@ class Appointment < ApplicationRecord
       .where('working_days.date >= ? AND user_id = ?', Date.today, id)
       .order(:time, 'working_days.date')
   end
+
+  def self.of_user(user)
+    where(user: user)
+  end
 end

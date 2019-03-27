@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable # TODO: :omniauthable
+         :recoverable, :rememberable, :trackable, :validatable
+  # TODO: :confirmable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 
   has_many :appointments

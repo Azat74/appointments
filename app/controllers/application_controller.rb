@@ -6,6 +6,10 @@ class ApplicationController < ActionController::API
 
   protected
 
+  def unprocessable_entity(error)
+    render json: error, status: :unprocessable_entity
+  end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(
       :sign_up,
