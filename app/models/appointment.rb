@@ -21,9 +21,9 @@ class Appointment < ApplicationRecord
       .order(:time, 'working_days.date')
   end
 
-  def self.of_user(user)
+  def self.of_user(id)
     includes(:working_day)
-      .where(user: user)
+      .where(user_id: id)
       .order(:time, 'working_days.date')
   end
 end

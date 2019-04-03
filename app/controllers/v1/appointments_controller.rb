@@ -3,7 +3,7 @@ class V1::AppointmentsController < ApplicationController
 
   def index
     render json: Appointment
-      .of_user(current_user)
+      .of_user(current_user.id)
       .page(params[:page]).per(params[:per_page])
   end
 
