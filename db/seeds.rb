@@ -49,7 +49,7 @@ WorkingDay.create(
   date: '2018-09-12'
 )
 
-Appointment.create(user_id: 1, working_day_id: 1, time: '09:00')
-Appointment.create(user_id: 1, working_day_id: 2, time: '11:00')
+Appointment.create(user_id: 3, working_day_id: 1, time: '09:00')
+Appointment.create(user_id: 3, working_day_id: 2, time: '11:00')
 Appointment.create(user_id: 1, working_day_id: 4, time: '18:00')
 Appointment.create(user_id: 1, working_day_id: 3, time: '20:00')

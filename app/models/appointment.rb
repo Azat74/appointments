@@ -22,6 +22,8 @@ class Appointment < ApplicationRecord
   end
 
   def self.of_user(user)
-    where(user: user)
+    includes(:working_day)
+      .where(user: user)
+      .order(:time, 'working_days.date')
   end
 end
