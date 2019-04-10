@@ -24,7 +24,7 @@ class Admin extends Component {
   render() {
     return (
       <div className="container">
-        <Button color="link" onClick={this.toggleForm}>
+        <Button outline color="success" onClick={this.toggleForm}>
           {
             this.state.currentForm === WORKING_DAY
               ? 'Create Appointment'

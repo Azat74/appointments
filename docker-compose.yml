@@ -8,11 +8,13 @@ services:
     command: foreman start
     environment:
       - DB_HOST=db
+      - ELASTICSEARCH_URL=elasticsearch
     # Only for quick dev
     volumes:
       - .:/app
     depends_on:
       - db
+      - elasticsearch
   db:
     build: ./docker/postgres/
     ports:
@@ -22,6 +24,14 @@ services:
     environment:
       # TODO: handle with database.yml
       - DB_NAME=${DB_NAME}
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.7.0
+    ports:
+      - 9200:9200
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
 volumes:
   appointments_db:
+    driver: local
+  esdata:
     driver: local

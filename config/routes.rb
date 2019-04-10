@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     get 'appointments', to: 'appointments#index'
     get 'appointment', to: 'appointments#new'
     post 'appointments', to: 'appointments#create'
+    get 'users', to: 'users#index'
   end
   root 'appointments#index'
 end

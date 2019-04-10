@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { Button, Input, Form, FormGroup , Label} from 'reactstrap';
 import { connect } from 'react-redux';
 
+import Autosuggest from '../Autosuggest';
+
 
 class AppointmentForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { time: '', user: '1', workingDay: '' };
+    this.state = { time: '', user: '', workingDay: '' };
   }
 
   setTime = (event) => {
@@ -49,21 +51,10 @@ class AppointmentForm extends Component {
       <div>
         <h2>Create appointment</h2>
         <Form onSubmit={this.handleForm}>
-          {/* TODO: Hardcoded for testing */}
           <FormGroup>
-            <Label for="user">Customer</Label>
-            <Input type="select"
-                   name="selectUser"
-                   id="user"
-                   value={this.state.user}
-                   onChange={this.setUser}
-            >
-              <option value="1">Marge Simpson</option>
-              <option value="2">Bart Simpson</option>
-              <option value="3">Homer Simpson</option>
-              <option value="4">Montgomery Burns</option>
-            </Input>
+            <Autosuggest onChange={id => { this.setState({user: id}) }}/>
           </FormGroup>
+          {/* TODO: Hardcoded for testing */}
           <FormGroup>
             <Label for="workingDay">Day</Label>
             <Input

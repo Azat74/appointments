@@ -4,16 +4,19 @@
   "private": true,
   "proxy": "http://127.0.0.1:3000",
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "dayjs": "^1.8.11",
     "react": "^16.8.5",
+    "react-autosuggest": "^9.4.3",
     "react-dom": "^16.8.5",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "reactstrap": "^7.1.0",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "throttle-debounce": "^2.1.0"
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",

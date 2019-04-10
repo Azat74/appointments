@@ -1,4 +1,8 @@
+require 'elasticsearch/model'
+
 class User < ApplicationRecord
+  include Elasticsearch::Model
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   # TODO: :confirmable, :omniauthable
@@ -16,5 +20,16 @@ class User < ApplicationRecord
 
   def to_s
     "#{first_name} #{last_name}"
+  end
+
+  def self.search(query_string)
+    self.__elasticsearch__.search(
+      query: { query_string: {
+              query: "#{query_string}*",
+              fields: [:last_name, :first_name]
+            }
+          },
+      _source: [:id, :first_name, :last_name, :email]
+    ).results
   end
 end
