@@ -1,12 +1,67 @@
-import React from "react";
+import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { Spinner, Table } from 'reactstrap';
+
+import { formatAppointment } from '../../Helper.js';
+import { fetchAppointments, setLoading } from '../../redux/actions';
 
 
-const calendar = () => {
-  return (
-      <div className="container">
-          <p>Here will be all appointments</p>
+class Calendar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { appointments: [] }
+  }
+
+  componentWillMount() {
+    this.props.setLoading(true);
+    this.props.fetchAppointments()
+      .then((json) => {
+        this.setState({ appointments: json.data });
+        this.props.setLoading(false);
+      });
+  }
+
+  render() {
+    if (this.props.loading) {
+      return <Spinner color='primary' />
+    }
+
+    return (
+      <div className='container'>
+        <h1>Hello, {this.props.user.email}</h1>
+        <Table striped>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            { 
+              this.state.appointments.map(appointment => {
+                const { date, time } = formatAppointment(appointment);
+                return (
+                  <tr key={appointment.id}>
+                    <td>{date}</td>
+                    <td>{time}</td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </Table>
       </div>
-  );
+    )
+  }
 }
 
-export default calendar;
+const mapStateToProps = state => {
+  return {
+    user: state.authenticate.user
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { fetchAppointments, setLoading }
+)(Calendar);

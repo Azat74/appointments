@@ -23,13 +23,14 @@ class User < ApplicationRecord
   end
 
   def self.search(query_string)
-    self.__elasticsearch__.search(
-      query: { query_string: {
-              query: "#{query_string}*",
-              fields: [:last_name, :first_name]
-            }
-          },
-      _source: [:id, :first_name, :last_name, :email]
+    __elasticsearch__.search(
+      query: {
+        query_string: {
+          query: "#{query_string}*",
+          fields: %i[last_name first_name]
+        }
+      },
+      _source: %i[id first_name last_name email]
     ).results
   end
 end

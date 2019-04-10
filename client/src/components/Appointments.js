@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Spinner, Table } from 'reactstrap';
-import dayjs from 'dayjs';
 
-import { setLoading } from '../redux/actions';
+import { formatAppointment } from '../Helper.js';
+import { fetchAppointments, setLoading } from '../redux/actions';
 
 
 class Appointments extends Component {
@@ -14,15 +14,10 @@ class Appointments extends Component {
 
     componentWillMount() {
       this.props.setLoading(true);
-      fetch(
-        `http://${this.props.apiUrl}/v1/appointments`,
-        { headers: this.props.headers }
-      ).then(response => {
-        return response.json();
-      }).then(json => {
-        this.setState({ appointments: json.data }, () => {
-          this.props.setLoading(false);
-        })
+      this.props.fetchAppointments()
+      .then((json) => {
+        this.setState({ appointments: json.data });
+        this.props.setLoading(false);
       });
     }
 
@@ -61,13 +56,6 @@ class Appointments extends Component {
     }
 }
 
-function formatAppointment(appointment) {
-  let time = dayjs(appointment.attributes.time).format('HH:mm');
-  let date = dayjs(appointment.attributes['working-day'].date)
-    .format('MMMM D');
-  return { date, time }
-}
-
 const mapStateToProps = state => {
   return {
     user: state.authenticate.user,
@@ -79,6 +67,6 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { setLoading }
+  { fetchAppointments, setLoading }
 )(Appointments);
 

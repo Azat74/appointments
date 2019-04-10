@@ -3,9 +3,9 @@ import { SIGN_IN, SET_LOADING, SIGN_OUT } from './actionTypes';
 
 export const requestAuth = (email, password) => {
   return function(dispatch, getState) {
-    const baseUrl = getState().api.url;
+    const apiUrl = getState().api.url;
     return fetch(
-      `http://${baseUrl}/auth/sign_in`,
+      `http://${apiUrl}/auth/sign_in`,
       {
         method: 'POST',
         headers: {
@@ -41,6 +41,18 @@ export const requestAuth = (email, password) => {
          });
        }
      );
+  }
+};
+
+export const fetchAppointments = () => {
+  return function(dispatch, getState) {
+    const apiUrl = getState().api.url;
+    return fetch(
+      `http://${apiUrl}/v1/appointments`,
+      { headers: getState().authenticate.headers }
+    ).then(response => {
+      return response.json();
+    });
   }
 };
 
