@@ -15,10 +15,15 @@ class Appointment < ApplicationRecord
       .order(:time, 'working_days.date')
   end
 
-  def self.active(id)
-    includes(:working_day)
-      .where('working_days.date >= ? AND user_id = ?', Date.today, id)
-      .order(:time, 'working_days.date')
+  def self.active(id, only_active = true)
+    appointments = includes(:working_day)
+    if only_active
+      appointments = appointments
+                     .where('working_days.date >= ? AND user_id = ?',
+                            Date.today, id)
+    end
+
+    appointments.order(:time, 'working_days.date')
   end
 
   def self.of_user(id)

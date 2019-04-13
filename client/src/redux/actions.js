@@ -44,11 +44,11 @@ export const requestAuth = (email, password) => {
   }
 };
 
-export const fetchAppointments = () => {
+export const fetchAppointments = (value = true) => {
   return function(dispatch, getState) {
     const apiUrl = getState().api.url;
     return fetch(
-      `http://${apiUrl}/v1/appointments`,
+      `http://${apiUrl}/v1/appointments?active=${value}`,
       { headers: getState().authenticate.headers }
     ).then(response => {
       return response.json();

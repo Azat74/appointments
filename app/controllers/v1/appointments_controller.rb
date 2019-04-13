@@ -2,8 +2,15 @@ class V1::AppointmentsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    appointments =
-      current_user.is_admin ? Appointment : Appointment.active(current_user.id)
+    appointments = if current_user.is_admin
+                     Appointment
+                   else
+                     Appointment.active(
+                       current_user.id,
+                       ActiveModel::Type::Boolean.new.cast(params[:active])
+                     )
+                   end
+
     render json: appointments
       .page(params[:page]).per(params[:per_page])
   end
