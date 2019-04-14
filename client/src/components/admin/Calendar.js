@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { Spinner, Table } from 'reactstrap';
+import { Spinner } from 'reactstrap';
+import dayjs from 'dayjs';
 
-import { formatAppointment } from '../../Helper.js';
-import { fetchAppointments, setLoading } from '../../redux/actions';
+import { fetchWorkingDays, setLoading } from '../../redux/actions';
 
 
 class Calendar extends Component {
   constructor(props) {
     super(props);
-    this.state = { appointments: [] }
+    this.state = { workingDays: [] }
   }
 
   componentWillMount() {
     this.props.setLoading(true);
-    this.props.fetchAppointments()
+    this.props.fetchWorkingDays()
       .then((json) => {
-        this.setState({ appointments: json.data });
+        this.setState({ workingDays: json.data });
         this.props.setLoading(false);
       });
   }
@@ -29,30 +29,28 @@ class Calendar extends Component {
     return (
       <div className='container'>
         <h1>Schedule</h1>
-        <Table striped>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Customer</th>
-              <th>Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            { 
-              this.state.appointments.map(appointment => {
-                const { date, time } = formatAppointment(appointment);
-                const user = appointment.attributes.user;
-                return (
-                  <tr key={appointment.id}>
-                    <td>{date}</td>
-                    <td>{`${user.first_name} ${user.last_name}`}</td>
-                    <td>{time}</td>
-                  </tr>
-                );
-              })
-            }
-          </tbody>
-        </Table>
+        <div className="row">
+          {
+            this.state.workingDays.map(day => {
+              let date = dayjs(day.attributes.date).format('MMMM D');
+              return (
+                <div key={day.id} className="col-sm-3">
+                  <h4>{date}</h4>
+                  <div>
+                    {
+                      day.attributes.appointments.map(appointment => {
+                        let time = dayjs(appointment.time).format('HH:mm');
+                        return (
+                          <div key={appointment.id}>{time}</div>
+                        )
+                      })
+                    }
+                  </div>
+                </div>
+              );
+            })
+          }
+        </div>
       </div>
     )
   }
@@ -60,5 +58,5 @@ class Calendar extends Component {
 
 export default connect(
   null,
-  { fetchAppointments, setLoading }
+  { fetchWorkingDays, setLoading }
 )(Calendar);

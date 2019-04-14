@@ -120,6 +120,18 @@ export const requestLogOut = () => {
   }
 }
 
+export const fetchWorkingDays = () => {
+  return function(dispatch, getState) {
+    const apiUrl = getState().api.url;
+    return axios({
+      method: 'get',
+      url: `http://${apiUrl}/v1/working_days`,
+      headers: getState().authenticate.headers
+    })
+      .then(res => res.data);
+  }
+}
+
 export const signIn = (headers, user) => ({
   type: SIGN_IN,
   payload: {
