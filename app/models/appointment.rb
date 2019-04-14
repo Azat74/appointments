@@ -16,7 +16,7 @@ class Appointment < ApplicationRecord
   end
 
   def self.active(id, only_active = true)
-    appointments = includes(:working_day)
+    appointments = includes(:working_day, :user)
     if only_active
       appointments = appointments
                      .where('working_days.date >= ? AND user_id = ?',

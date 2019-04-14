@@ -33,6 +33,7 @@ class Calendar extends Component {
           <thead>
             <tr>
               <th>Date</th>
+              <th>Customer</th>
               <th>Time</th>
             </tr>
           </thead>
@@ -40,9 +41,11 @@ class Calendar extends Component {
             { 
               this.state.appointments.map(appointment => {
                 const { date, time } = formatAppointment(appointment);
+                const user = appointment.attributes.user;
                 return (
                   <tr key={appointment.id}>
                     <td>{date}</td>
+                    <td>{`${user.first_name} ${user.last_name}`}</td>
                     <td>{time}</td>
                   </tr>
                 );
