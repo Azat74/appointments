@@ -22,7 +22,6 @@ class V1::AppointmentsController < ApplicationController
     if result.success?
       render json: result.appointment, status: :ok
     else
-      puts ">>>#{result.errors.full_messages}"
       unprocessable_entity result.errors
     end
   end

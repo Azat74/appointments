@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Button, Input, Form, FormGroup , Label} from 'reactstrap';
 import { connect } from 'react-redux';
 
+import { createWorkingDay } from '../../redux/actions';
+
 
 class WorkingDayForm extends Component {
   constructor(props) {
@@ -15,20 +17,10 @@ class WorkingDayForm extends Component {
 
   handleForm = (event) => {
     event.preventDefault();
-    // TODO: Think about helper.
-    fetch(
-      `http://${this.props.apiUrl}/v1/working_days`,
-      { 
-        headers: { ...this.props.headers, "Content-Type": "application/json" },
-        method: 'POST',
-        body: JSON.stringify({ working_day: { date: this.state.date } })
-      }
-    ).then(response => {
-      return response.json();
-    }).then(json => {
-      this.setState({ date: '' });
-      console.log(json);
-    });
+    this.props.createWorkingDay(this.state.date)
+      .then(() => {
+        this.setState({ date: '' });
+      });
   }
 
   render() {
@@ -64,5 +56,6 @@ const mapStateToProps = state => {
 };
   
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { createWorkingDay }
 )(WorkingDayForm);

@@ -3,25 +3,16 @@ import { connect } from 'react-redux';
 import { Link, Redirect } from "react-router-dom";
 import { Nav, Navbar, NavItem, NavLink } from 'reactstrap';
 
-import { signOut } from '../redux/actions';
+import { requestLogOut, signOut } from '../redux/actions';
 
 
 class NavBar extends Component {
   handleLogOut = () => {
-    fetch(
-      `http://${this.props.apiUrl}/auth/sign_out`,
-      { 
-        headers: {
-          uid: this.props.headers.uid,
-          client: this.props.headers.client,
-          'access-token': this.props.headers['access-token']
-        },
-        method: 'DELETE'
-      }
-    ).then(() => {
-      this.props.signOut();
-      return <Redirect to="/sign_in" /> 
-    });
+    this.props.requestLogOut()
+      .then(() => {
+        this.props.signOut();
+        return <Redirect to="/sign_in" /> 
+      });
   };
 
   render() {
@@ -85,6 +76,6 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { signOut }
+  { requestLogOut, signOut }
 )(NavBar);
 

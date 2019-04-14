@@ -19,8 +19,8 @@ class Users extends Component {
   componentWillMount() {
     this.props.setLoading(true);
     this.props.fetchUsers()
-      .then((json) => {
-        this.setState({ users: json.data });
+      .then((res) => {
+        this.setState({ users: res.data });
         this.props.setLoading(false);
       });
   }

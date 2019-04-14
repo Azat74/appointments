@@ -6,43 +6,32 @@ import { SIGN_IN, SET_LOADING, SIGN_OUT } from './actionTypes';
 export const requestAuth = (email, password) => {
   return function(dispatch, getState) {
     const apiUrl = getState().api.url;
-    return fetch(
-      `http://${apiUrl}/auth/sign_in`,
-      {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password })
-      }
-    ).then(
-       response => {
-         // TODO: Add logic when response false, move headers to helper.
-         const allowedHeaders = [
-           'access-token',
-           'token-type',
-           'client',
-           'expiry',
-           'uid'
-         ];
+    return axios({
+      method: 'post',
+      url: `http://${apiUrl}/auth/sign_in`,
+      headers: { 'Content-Type': 'application/json' },
+      data: JSON.stringify({ email, password })
+    })
+      .then(
+        res => {
+          const headers = {
+            'access-token': res.headers['access-token'],
+            'token-type': res.headers['token-type'],
+            client: res.headers.client,
+            expiry: res.headers.expiry,
+            uid: res.headers.uid
+          };
 
-         const headers = {};
-         allowedHeaders.forEach((header) => {
-           headers[header] = response.headers.get(header);
-         });
-
-         response.json().then((json) => {
           const user = {
-            firstName: json.data.first_name,
-            lastName: json.data.last_name,
-            email: json.data.email,
-            isAdmin: json.data.is_admin
+            firstName: res.data.data.first_name,
+            lastName: res.data.data.last_name,
+            email: res.data.data.email,
+            isAdmin: res.data.data.is_admin
           };
 
           dispatch(signIn(headers, user));
-         });
-       }
-     );
+        }
+      );
   }
 };
 
@@ -51,24 +40,24 @@ export const fetchAppointments = (value = true) => {
     const apiUrl = getState().api.url;
     const user = getState().authenticate.user;
     const query = user.isAdmin ? '' : `?active=${value}`
-    return fetch(
-      `http://${apiUrl}/v1/appointments` + query,
-      { headers: getState().authenticate.headers }
-    ).then(response => {
-      return response.json();
-    });
+    return axios({
+      method: 'get',
+      url: `http://${apiUrl}/v1/appointments` + query,
+      headers: getState().authenticate.headers
+    })
+      .then(res => res.data);
   }
 };
 
 export const fetchUsers = () => {
   return function(dispatch, getState) {
     const apiUrl = getState().api.url;
-    return fetch(
-      `http://${apiUrl}/v1/users`,
-      { headers: getState().authenticate.headers }
-    ).then(response => {
-      return response.json();
-    });
+    return axios({
+      method: 'get',
+      url: `http://${apiUrl}/v1/users`,
+      headers: getState().authenticate.headers
+    })
+      .then(res => res.data);
   }
 }
 
@@ -92,7 +81,8 @@ export const createAppointment = (time, user, workingDay) => {
       url: `http://${apiUrl}/v1/appointments`,
       headers: {
         'Content-Type': 'application/json',
-        ...getState().authenticate.headers },
+        ...getState().authenticate.headers
+      },
         data: JSON.stringify({
           appointment: { 
             time,
@@ -100,6 +90,32 @@ export const createAppointment = (time, user, workingDay) => {
             working_day_id: workingDay
           } 
         })
+    });
+  }
+}
+
+export const createWorkingDay = (date) => {
+  return function(dispatch, getState) {
+    const apiUrl = getState().api.url;
+    return axios({
+      method: 'post',
+      url: `http://${apiUrl}/v1/working_days`,
+      headers: {
+        'Content-Type': 'application/json',
+        ...getState().authenticate.headers
+      },
+      data: JSON.stringify({ working_day: { date } })
+    });
+  }
+}
+
+export const requestLogOut = () => {
+  return function(dispatch, getState) {
+    const apiUrl = getState().api.url;
+    return axios({
+      method: 'delete',
+      url: `http://${apiUrl}/auth/sign_out`,
+      headers: getState().authenticate.headers
     });
   }
 }
