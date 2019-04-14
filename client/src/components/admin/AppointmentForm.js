@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Input, Form, FormGroup , Label} from 'reactstrap';
 import { connect } from 'react-redux';
 
+import { createAppointment } from '../../redux/actions';
 import Autosuggest from '../Autosuggest';
 
 
@@ -25,25 +26,15 @@ class AppointmentForm extends Component {
 
   handleForm = (event) => {
     event.preventDefault();
-    // TODO: Think about helper.
-    fetch(
-      `http://${this.props.apiUrl}/v1/appointments`,
-      { 
-        headers: { ...this.props.headers, "Content-Type": "application/json" },
-        method: 'POST',
-        body: JSON.stringify({
-          appointment: { 
-            time: this.state.time,
-            user_id: this.state.user,
-            working_day_id: this.state.workingDay
-          } 
-        })
-      }
-    ).then(response => {
-      return response.json();
-    }).then((json) => {
-      this.setState({ time: '', workingDay: '' });
-    });
+    this.props.createAppointment(
+      this.state.time,
+      this.state.user,
+      this.state.workingDay
+    )
+      .then((json) => {
+        console.log(json);
+        this.setState({ time: '', workingDay: '' });
+      });
   }
 
   render() {
@@ -94,5 +85,6 @@ const mapStateToProps = state => {
 };
   
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { createAppointment }
 )(AppointmentForm);

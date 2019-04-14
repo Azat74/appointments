@@ -84,6 +84,26 @@ export const findUser = (query) => {
   }
 }
 
+export const createAppointment = (time, user, workingDay) => {
+  return function(dispatch, getState) {
+    const apiUrl = getState().api.url;
+    return axios({
+      method: 'post',
+      url: `http://${apiUrl}/v1/appointments`,
+      headers: {
+        'Content-Type': 'application/json',
+        ...getState().authenticate.headers },
+        data: JSON.stringify({
+          appointment: { 
+            time,
+            user_id: user,
+            working_day_id: workingDay
+          } 
+        })
+    });
+  }
+}
+
 export const signIn = (headers, user) => ({
   type: SIGN_IN,
   payload: {
