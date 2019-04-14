@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import Autosuggest from 'react-autosuggest'
-import axios from 'axios'
 import { debounce } from 'throttle-debounce'
 import { connect } from 'react-redux';
 import { Label} from 'reactstrap';
+
+import { findUser } from '../redux/actions';
 
 
 const theme = {
@@ -36,14 +37,7 @@ class AutoComplete extends Component {
   }
 
   onSuggestionsFetchRequested = ({ value }) => {
-    axios({
-      method: 'get',
-      url: `http://${this.props.apiUrl}/v1/users`,
-      headers: this.props.headers,
-      params: {
-        q: this.state.value
-      }
-    })
+    this.props.findUser(value)
       .then(res => {
         let results = [];
         if (res.data.length) {
@@ -97,6 +91,7 @@ const mapStateToProps = state => {
 };
   
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { findUser }
 )(AutoComplete);
 

@@ -27,8 +27,8 @@ class Admin extends Component {
         <Button outline color="success" onClick={this.toggleForm}>
           {
             this.state.currentForm === WORKING_DAY
-              ? 'Create Appointment'
-              : 'Create Working Day'
+              ? 'New Appointment'
+              : 'New Working Day'
           }
         </Button>
         { this.state.currentForm === WORKING_DAY ? (

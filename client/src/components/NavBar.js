@@ -25,9 +25,16 @@ class NavBar extends Component {
   };
 
   render() {
+    // TODO: Refactor this.
     const calendarLink = this.props.user.isAdmin
       ? <NavItem>
           <Link to="/calendar" className="nav-link">Calendar</Link>
+        </NavItem>
+      : null;
+    
+    const usersLink = this.props.user.isAdmin
+      ? <NavItem>
+          <Link to="/users" className="nav-link">Users</Link>
         </NavItem>
       : null;
 
@@ -36,6 +43,7 @@ class NavBar extends Component {
         <Navbar color="light" light expand="md">
           <Nav className="ml-auto" navbar>
             {calendarLink}
+            {usersLink}
             <NavItem>
               {
                 this.props.user.isAdmin ? (

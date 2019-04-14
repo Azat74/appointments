@@ -7,6 +7,7 @@ import NavBar from './NavBar';
 import Appointments from './Appointments';
 import Admin from './admin/Admin';
 import Calendar from './admin/Calendar';
+import Users from './admin/Users';
 
 
 const AdminRoute = ({ component: Component, user, ...rest }) => (
@@ -31,6 +32,7 @@ const Routes = withRouter((props) => {
       <Route path="/sign_in" component={SignInForm} />
       <AdminRoute path="/admin" component={Admin} user={props.user} />
       <AdminRoute path="/calendar" component={Calendar} user={props.user} />
+      <AdminRoute path="/users" component={Users} user={props.user} />
     </div>
   )
 });

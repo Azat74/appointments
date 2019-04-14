@@ -34,7 +34,7 @@ class SignInForm extends Component {
     // TODO: Compare with withRouter approach
     if (redirect) {
       return this.props.user.isAdmin
-        ? <Redirect to="/admin" />
+        ? <Redirect to="/calendar" />
         : <Redirect to="/" />;
     }
 

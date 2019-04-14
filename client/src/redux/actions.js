@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { SIGN_IN, SET_LOADING, SIGN_OUT } from './actionTypes';
 
 
@@ -15,7 +17,7 @@ export const requestAuth = (email, password) => {
       }
     ).then(
        response => {
-         // TODO: Add logic when response false
+         // TODO: Add logic when response false, move headers to helper.
          const allowedHeaders = [
            'access-token',
            'token-type',
@@ -47,14 +49,40 @@ export const requestAuth = (email, password) => {
 export const fetchAppointments = (value = true) => {
   return function(dispatch, getState) {
     const apiUrl = getState().api.url;
+    const user = getState().authenticate.user;
+    const query = user.isAdmin ? '' : `?active=${value}`
     return fetch(
-      `http://${apiUrl}/v1/appointments?active=${value}`,
+      `http://${apiUrl}/v1/appointments` + query,
       { headers: getState().authenticate.headers }
     ).then(response => {
       return response.json();
     });
   }
 };
+
+export const fetchUsers = () => {
+  return function(dispatch, getState) {
+    const apiUrl = getState().api.url;
+    return fetch(
+      `http://${apiUrl}/v1/users`,
+      { headers: getState().authenticate.headers }
+    ).then(response => {
+      return response.json();
+    });
+  }
+}
+
+export const findUser = (query) => {
+  return function(dispatch, getState) {
+    const apiUrl = getState().api.url;
+    return axios({
+      method: 'get',
+      url: `http://${apiUrl}/v1/users`,
+      headers: getState().authenticate.headers,
+      params: { q: query }
+    });
+  }
+}
 
 export const signIn = (headers, user) => ({
   type: SIGN_IN,

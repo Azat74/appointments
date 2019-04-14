@@ -28,7 +28,7 @@ class Calendar extends Component {
 
     return (
       <div className='container'>
-        <h1>Hello, {this.props.user.email}</h1>
+        <h1>Schedule</h1>
         <Table striped>
           <thead>
             <tr>
@@ -58,13 +58,7 @@ class Calendar extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    user: state.authenticate.user
-  };
-};
-
 export default connect(
-  mapStateToProps,
+  null,
   { fetchAppointments, setLoading }
 )(Calendar);

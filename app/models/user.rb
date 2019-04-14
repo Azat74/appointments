@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :appointments
   has_many :working_days, through: :appointments
 
-  validates :phone, :first_name, :last_name, presence: true
+  validates :phone, :first_name, :last_name, :email, presence: true
   validates :phone, uniqueness: true
   validates :phone, format: {
     with: /\A\d{11}\z/,
