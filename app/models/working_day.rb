@@ -4,7 +4,11 @@ class WorkingDay < ApplicationRecord
   validates :date, uniqueness: true
   validates_with WorkingDayValidator, fields: :date
 
-  scope :available, -> { includes(:appointments, :users).order(:date) }
+  scope :available, lambda {
+    includes(:appointments, :users)
+      .where('date >= ?', Date.today)
+      .order(:date)
+  }
 
   def to_s
     date.strftime('%e %b %y %a')

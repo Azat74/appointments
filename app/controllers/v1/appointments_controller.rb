@@ -11,8 +11,8 @@ class V1::AppointmentsController < ApplicationController
                      )
                    end
 
-    render json: appointments
-      .page(params[:page]).per(params[:per_page])
+    render json: appointments.page(params[:page]).per(params[:per_page]),
+           include: 'working_day'
   end
 
   def create

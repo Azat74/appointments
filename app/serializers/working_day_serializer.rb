@@ -1,3 +1,5 @@
 class WorkingDaySerializer < ActiveModel::Serializer
-  attributes :id, :date, :appointments
+  attributes :id, :date
+
+  has_many :appointments
 end

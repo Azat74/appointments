@@ -9,14 +9,17 @@ import { fetchAppointments, setLoading } from '../redux/actions';
 class Appointments extends Component {
     constructor(props) {
       super(props);
-      this.state = { appointments: [] }
+      this.state = { appointments: [], working_days: [] }
     }
 
     componentWillMount() {
       this.props.setLoading(true);
       this.props.fetchAppointments()
       .then((json) => {
-        this.setState({ appointments: json.data });
+        this.setState({
+          appointments: json.data,
+          working_days: json.included
+        });
         this.props.setLoading(false);
       });
     }
@@ -26,7 +29,7 @@ class Appointments extends Component {
         return <Spinner color='primary' />
       }
 
-      // TODO: Fix it, here just quick testing
+      const working_days = this.state.working_days;
       return (
         <div className='container'>
           <h1>Hello, {this.props.user.email}</h1>
@@ -40,7 +43,8 @@ class Appointments extends Component {
             <tbody>
               { 
                 this.state.appointments.map(appointment => {
-                  const { date, time } = formatAppointment(appointment);
+                  const { date, time } =
+                    formatAppointment(appointment, working_days);
                   return (
                     <tr key={appointment.id}>
                       <td>{date}</td>

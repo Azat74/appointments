@@ -3,9 +3,11 @@ class V1::WorkingDaysController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    render json: WorkingDay
-      .available
-      .page(params[:page]).per(params[:per_page])
+    working_day = WorkingDay
+                  .available
+                  .page(params[:page]).per(params[:per_page])
+    render json: working_day,
+           include: 'appointments'
   end
 
   def show
