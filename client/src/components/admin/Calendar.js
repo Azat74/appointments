@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import dayjs from 'dayjs';
 
+import { formatUserName } from '../../Helper';
 import { fetchWorkingDays, setLoading } from '../../redux/actions';
 
 
@@ -61,7 +62,7 @@ class Calendar extends Component {
                         const user = this.state.included[userIndex];
                         return (
                           <div key={appointment.id}>
-                            {user.attributes.lastName} {time}
+                            {`${formatUserName(user)} ${time}`}
                           </div>
                         )
                       })

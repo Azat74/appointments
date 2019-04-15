@@ -7,3 +7,7 @@ export function formatAppointment(appointment, days) {
   const date = dayjs(days[dayIndex].date).format('MMMM D');
   return { date, time }
 }
+
+export function formatUserName(user) {
+  return `${user.attributes.firstName} ${user.attributes.lastName}`
+}
