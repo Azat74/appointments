@@ -39,7 +39,7 @@ class Calendar extends Component {
                   if (value.type !== 'appointments') {
                     return false;
                   }
-                  const id = value.relationships['working-day'].data.id;
+                  const id = value.relationships.workingDay.data.id;
                   return id === day.id;
                 });
               return (
@@ -48,10 +48,21 @@ class Calendar extends Component {
                   <div>
                     {
                       appointments.map(appointment => {
-                        let time = dayjs(appointment.attributes.time)
+                        const time = dayjs(appointment.attributes.time)
                           .format('HH:mm');
+                        const user_id = appointment.relationships.user.data.id;
+                        const userIndex =
+                          this.state.included.findIndex((value) => {
+                            if (value.type !== 'users') {
+                              return false;
+                            }
+                            return value.id === user_id;
+                          });
+                        const user = this.state.included[userIndex];
                         return (
-                          <div key={appointment.id}>{time}</div>
+                          <div key={appointment.id}>
+                            {user.attributes.lastName} {time}
+                          </div>
                         )
                       })
                     }

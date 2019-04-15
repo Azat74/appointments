@@ -22,8 +22,8 @@ class UserList extends Component {
                   <tr key={user.id}>
                     <td>
                       {`\
-                        ${user.attributes['first-name']} \
-                        ${user.attributes['last-name']}\
+                        ${user.attributes.firstName} \
+                        ${user.attributes.lastName}\
                       `}
                     </td>
                     <td>{user.attributes.email}</td>
