@@ -7,7 +7,7 @@ class V1::WorkingDaysController < ApplicationController
                   .available
                   .page(params[:page]).per(params[:per_page])
     render json: working_day,
-           include: 'appointments'
+           include: %w[appointments users]
   end
 
   def show

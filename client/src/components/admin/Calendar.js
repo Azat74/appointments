@@ -9,14 +9,15 @@ import { fetchWorkingDays, setLoading } from '../../redux/actions';
 class Calendar extends Component {
   constructor(props) {
     super(props);
-    this.state = { workingDays: [], appointments: [] }
+    // TODO: Try to find better solution
+    this.state = { workingDays: [], included: [] }
   }
 
   componentWillMount() {
     this.props.setLoading(true);
     this.props.fetchWorkingDays()
       .then((json) => {
-        this.setState({ workingDays: json.data, appointments: json.included});
+        this.setState({ workingDays: json.data, included: json.included });
         this.props.setLoading(false);
       });
   }
@@ -34,9 +35,12 @@ class Calendar extends Component {
             this.state.workingDays.map(day => {
               let date = dayjs(day.attributes.date).format('MMMM D');
               const appointments =
-                this.state.appointments.filter((appointment) => {
-                  const id = appointment.relationships['working-day'].data.id;
-                  return id === day.id
+                this.state.included.filter((value) => {
+                  if (value.type !== 'appointments') {
+                    return false;
+                  }
+                  const id = value.relationships['working-day'].data.id;
+                  return id === day.id;
                 });
               return (
                 <div key={day.id} className="col-sm-3">
