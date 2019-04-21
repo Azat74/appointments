@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Input, Form, FormGroup , Label} from 'reactstrap';
-
+import PhoneInput from './PhoneInput';
 
 class UserForm extends Component {
   constructor(props) {
@@ -11,14 +11,19 @@ class UserForm extends Component {
       email: '',
       phone: ''
     };
+    this.ref = React.createRef();
   }
 
   setFirstName = (event) => {
-    this.setState({ firstName: event.target.value });
+    const value = event.target.value;
+    const newValue = value.replace(/[^A-Za-z]/ig, '');
+    this.setState({ firstName: newValue });
   }
 
   setLastName = (event) => {
-    this.setState({ lastName: event.target.value });
+    const value = event.target.value
+    const newValue = value.replace(/[^A-Za-z]/ig, '')
+    this.setState({ lastName: newValue });
   }
 
   setEmail = (event) => {
@@ -29,14 +34,28 @@ class UserForm extends Component {
     this.setState({ phone: event.target.value });
   }
 
+  formatPhone = (tel) => {
+    let formattedTel = tel;
+    return `${formattedTel.replace(/\s+/g, '').replace(/-/g, '').replace(/[()]/g, '')}`;
+  }
+
+  checkValidateForm = tel => tel.length === 12 ? true : false;
+
   handleForm = (event) => {
     event.preventDefault();
+    const formattedTel = this.formatPhone(this.state.phone);
+    const isValid = this.checkValidateForm(formattedTel);
+    if (!isValid) {
+      this.ref.current.querySelector('#phone').focus();
+    } else {
+      alert('submit');
+    }
     // TODO: Handle user form
   }
 
   render() {
     return (
-      <div>
+      <div ref={this.ref}>
         <h2>Create User</h2>
         <Form onSubmit={this.handleForm}>
           <FormGroup>
@@ -47,6 +66,8 @@ class UserForm extends Component {
               id="firstName"
               value={this.state.firstName}
               onChange={this.setFirstName}
+              minLength={2}
+              required
             />
           </FormGroup>
           <FormGroup>
@@ -57,6 +78,8 @@ class UserForm extends Component {
               id="lastName"
               value={this.state.lastName}
               onChange={this.setLastName}
+              minLength={2}
+              required
             />
           </FormGroup>
           <FormGroup>
@@ -67,16 +90,18 @@ class UserForm extends Component {
               id="email"
               value={this.state.email}
               onChange={this.setEmail}
+              required
             />
           </FormGroup>
           <FormGroup>
             <Label for="phone">Phone</Label>
-            <Input
-              type="number"
+            <PhoneInput
+              type='text'
               name="phone"
               id="phone"
               value={this.state.phone}
               onChange={this.setPhone}
+              required
             />
           </FormGroup>
           <Button color="primary">Create User</Button>
