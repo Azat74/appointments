@@ -96,7 +96,7 @@ class UserForm extends Component {
           <FormGroup>
             <Label for="phone">Phone</Label>
             <PhoneInput
-              type='text'
+              type='tel'
               name="phone"
               id="phone"
               value={this.state.phone}
