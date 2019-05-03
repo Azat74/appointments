@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Input, Form, FormGroup , Label} from 'reactstrap';
 import PhoneInput from './PhoneInput';
+import './UserForm.scss'
 
 class UserForm extends Component {
   constructor(props) {
@@ -13,16 +14,27 @@ class UserForm extends Component {
     };
     this.ref = React.createRef();
   }
-
+  showErrorState = (node, cn = 'js-error') => {
+    node.classList.add(cn);
+    setTimeout(() => {
+      node.classList.remove(cn);
+    }, 2000)
+  }
   setFirstName = (event) => {
     const value = event.target.value;
     const newValue = value.replace(/[^A-Za-z]/ig, '');
+    if (this.state.firstName === newValue && newValue.length === 0) {
+      this.showErrorState(event.target);
+    }
     this.setState({ firstName: newValue });
   }
 
   setLastName = (event) => {
     const value = event.target.value
     const newValue = value.replace(/[^A-Za-z]/ig, '')
+    if (this.state.firstName === newValue && newValue.length === 0) {
+      this.showErrorState(event.target);
+    }
     this.setState({ lastName: newValue });
   }
 
@@ -44,8 +56,8 @@ class UserForm extends Component {
   handleForm = (event) => {
     event.preventDefault();
     const formattedTel = this.formatPhone(this.state.phone);
-    const isValid = this.checkValidateForm(formattedTel);
-    if (!isValid) {
+    const isValidPhone = this.checkValidateForm(formattedTel);
+    if (!isValidPhone) {
       this.ref.current.querySelector('#phone').focus();
     } else {
       alert('submit');
@@ -55,9 +67,9 @@ class UserForm extends Component {
 
   render() {
     return (
-      <div ref={this.ref}>
+      <div className='user-form' ref={this.ref}>
         <h2>Create User</h2>
-        <Form onSubmit={this.handleForm}>
+        <Form onSubmit={this.handleForm} noValidate>
           <FormGroup>
             <Label for="firstName">First Name</Label>
             <Input
@@ -67,6 +79,7 @@ class UserForm extends Component {
               value={this.state.firstName}
               onChange={this.setFirstName}
               minLength={2}
+              placeholder='You can type only letters'
               required
             />
           </FormGroup>
@@ -79,6 +92,7 @@ class UserForm extends Component {
               value={this.state.lastName}
               onChange={this.setLastName}
               minLength={2}
+              placeholder='You can type only letters'
               required
             />
           </FormGroup>
