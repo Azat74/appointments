@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Input, Form, FormGroup, Label } from 'reactstrap';
+import { Button, Input, Form, FormGroup, Label, FormFeedback } from 'reactstrap';
 import PhoneInput from './PhoneInput';
 import './UserForm.scss'
 
@@ -14,19 +14,41 @@ class UserForm extends Component {
     };
     this.ref = React.createRef();
   }
-  showErrorState = (node, cn = 'js-error', argError) => {
-    let error;
+  showErrorState = (node, cn = 'is-invalid', argError) => {
+    let error = '';
     if (!!node.getAttribute('error')) {
       error = node.getAttribute('error');
     };
     if (!!argError && typeof argError === 'string') {
       error = argError;
     };
-    node.setAttribute('placeholder', `${error}`);
+    const errorNode = node.parentNode.querySelector('.invalid-feedback');
+    if (!!errorNode) {
+      errorNode.innerText = `${error}`;
+    }
     node.classList.add(cn);
     setTimeout(() => {
       node.classList.remove(cn);
     }, 2000);
+  }
+
+  handleInputText = (event) => {
+    const node = event.target;
+    if (node.value.length < node.getAttribute('minLength') && node.value.length > 0) {
+      this.showErrorState(node, undefined, `you must enter at least ${node.getAttribute('minLength')} characters`);
+    }
+  }
+  
+  handleInputEmail = (event) => {
+    let node = event.target;
+    if (node instanceof Node === false) {
+      node = event;
+    }
+    if (!node.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && node.value.length > 0) {
+      this.showErrorState(node, undefined, 'you must enter correct email address');
+      return false;
+    }
+    return true;
   }
 
   setFirstName = (event) => {
@@ -77,6 +99,8 @@ class UserForm extends Component {
     } else if (lastNameNode.value.length < lastNameNode.getAttribute('minLength')) {
       this.showErrorState(lastNameNode, undefined, `you must enter at least ${lastNameNode.getAttribute('minLength')} characters`);
       lastNameNode.focus();
+    } else if (this.handleInputEmail(emailNode) === false && true === false) {
+      emailNode.focus();
     } else if (!isValidPhone) {
       phoneNode.focus();
     } else {
@@ -98,10 +122,13 @@ class UserForm extends Component {
               id="firstName"
               value={this.state.firstName}
               onChange={this.setFirstName}
+              onBlur={this.handleInputText}
               minLength={2}
               error='You can type only letters'
               required
             />
+            <FormFeedback valid>Sweet! that name is available</FormFeedback>
+            <FormFeedback invalid='invalid'>Oh noes! that name is already taken</FormFeedback>
           </FormGroup>
           <FormGroup>
             <Label for="lastName">Last Name</Label>
@@ -111,10 +138,13 @@ class UserForm extends Component {
               id="lastName"
               value={this.state.lastName}
               onChange={this.setLastName}
+              onBlur={this.handleInputText}
               minLength={2}
               error='You can type only letters'
               required
             />
+            <FormFeedback valid>Sweet! that name is available</FormFeedback>
+            <FormFeedback invalid='invalid'>Oh noes! that name is already taken</FormFeedback>
           </FormGroup>
           <FormGroup>
             <Label for="email">Email</Label>
@@ -124,6 +154,7 @@ class UserForm extends Component {
               id="email"
               value={this.state.email}
               onChange={this.setEmail}
+              onBlur={this.handleInputEmail}
               error='You can type valid email address'
               required
             />
