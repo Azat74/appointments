@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Button, Input, Form, FormGroup, Label, FormFeedback } from 'reactstrap';
 import PhoneInput from './PhoneInput';
-import './UserForm.scss'
 
 class UserForm extends Component {
   constructor(props) {
@@ -38,18 +37,44 @@ class UserForm extends Component {
       this.showErrorState(node, undefined, `you must enter at least ${node.getAttribute('minLength')} characters`);
     }
   }
-  
-  handleInputEmail = (event) => {
+
+  handleInputEmail = (event, submit = 'false') => {
     let node = event.target;
     if (node instanceof Node === false) {
       node = event;
     }
-    if (!node.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && node.value.length > 0) {
+    if (
+      (!node.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) && node.value.length > 0) ||
+      (submit === true && node.value.length < 1)) {
       this.showErrorState(node, undefined, 'you must enter correct email address');
       return false;
     }
     return true;
   }
+
+  handleInputTel = (event, submit = 'false') => {
+    let node = event.target;
+    if (node instanceof Node === false) {
+      node = event;
+    }
+    const formattedTel = this.formatPhone(this.state.phone);
+    const isValidPhone = this.checkValidateForm(formattedTel);
+    if (
+      (!isValidPhone && node.value.length > 0) ||
+      (submit === true && !isValidPhone)
+    ) {
+      this.showErrorState(node, undefined, 'you must enter correct telephone number');
+      return false;
+    }
+    return true
+  }
+
+  formatPhone = (tel) => {
+    let formattedTel = tel;
+    return `${formattedTel.replace(/\s+/g, '').replace(/-/g, '').replace(/[()]/g, '')}`;
+  }
+
+  checkValidateForm = tel => tel.length === 12 ? true : false;
 
   setFirstName = (event) => {
     const value = event.target.value;
@@ -77,17 +102,8 @@ class UserForm extends Component {
     this.setState({ phone: event.target.value });
   }
 
-  formatPhone = (tel) => {
-    let formattedTel = tel;
-    return `${formattedTel.replace(/\s+/g, '').replace(/-/g, '').replace(/[()]/g, '')}`;
-  }
-
-  checkValidateForm = tel => tel.length === 12 ? true : false;
-
   handleForm = (event) => {
     event.preventDefault();
-    const formattedTel = this.formatPhone(this.state.phone);
-    const isValidPhone = this.checkValidateForm(formattedTel);
     // nodes
     const firstNameNode = this.ref.current.querySelector('#firstName');
     const lastNameNode = this.ref.current.querySelector('#lastName');
@@ -99,9 +115,9 @@ class UserForm extends Component {
     } else if (lastNameNode.value.length < lastNameNode.getAttribute('minLength')) {
       this.showErrorState(lastNameNode, undefined, `you must enter at least ${lastNameNode.getAttribute('minLength')} characters`);
       lastNameNode.focus();
-    } else if (this.handleInputEmail(emailNode) === false && true === false) {
+    } else if (this.handleInputEmail(emailNode, true) === false || emailNode.value.length < 1) {
       emailNode.focus();
-    } else if (!isValidPhone) {
+    } else if (this.handleInputTel(phoneNode, true) === false || phoneNode.value.length < 1) {
       phoneNode.focus();
     } else {
       alert('submit');
@@ -167,9 +183,12 @@ class UserForm extends Component {
               id="phone"
               value={this.state.phone}
               onChange={this.setPhone}
+              onBlur={this.handleInputTel}
               error='You can type valid phone number'
               required
             />
+            <FormFeedback valid>success text here</FormFeedback>
+            <FormFeedback invalid='invalid'>error-text here</FormFeedback>
           </FormGroup>
           <Button color="primary">Create User</Button>
         </Form>
